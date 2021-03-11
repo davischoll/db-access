@@ -8,10 +8,4 @@ admin.initializeApp({
 
 const db = admin.firestore()
 
-const collectionCategories = db.collection('categories').doc()
-
-collectionCategories
-  .set({
-    category: 'Nova categoria'})
-  .then(snap => {
-    console.log(snap)})
+module.exports = db

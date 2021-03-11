@@ -13,7 +13,7 @@ const pageSize = 1
 const categories = db.collection('categories')
                      .orderBy('category')
                      .limit(pageSize+1)
-                     .startAfter('Nova categoria com update')
+                     .startAfter('Eletronics')
                      .get()
 
 categories.then(snapshot => {
