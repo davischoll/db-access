@@ -2,17 +2,18 @@ const categories = require('./categories')
 
 const testes = async() => {
   // await categories.create({
-  //   category: 'Nova categoria organizada'
+  //   category: 'Shablau'
   // })
 
-  // await categories.remove('Et6u1QjhxPMkHkqaStqx')
+  // await categories.remove('4Ehvojx9wTtNkOSNOhaT')
 
-  // await categories.update('3mpUvA12JbGJvRxVVHPU', {category: 'Categoria atualizada update'})
+  // await categories.update('3wRTq9D1urdGU3oCVnJZ', {category: 'Computers'})
 
-  // const categorias = await categories.findAll()
+  const categoriasTodas = await categories.findAll()
+  console.log('Todas ===>>', categoriasTodas)
 
-  const categorias = await categories.findAllPaginated({ pageSize: 1, startAfter: 'Categoria atualizada update' })
-  console.log(categorias)
+  const categorias = await categories.findAllPaginated({ pageSize: 2, startAfter: '' })
+  console.log('Paginadas ===>>', categorias)
 }
 
 testes()

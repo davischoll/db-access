@@ -1,7 +1,9 @@
 const db = require('./firestore')
 
+const collectionCategories = db.collection('categories')
+
 const findAll = async() => {
-  const categoriesDB = await db.collection('categories').get()
+  const categoriesDB = await collectionCategories.orderBy('category').get()
 
   if (categoriesDB.empty)
     return []
@@ -9,7 +11,7 @@ const findAll = async() => {
   const categories = []
   categoriesDB.forEach(doc => {
     categories.push({
-      ...doc.data(),
+      categoria: doc.data().category,
       id: doc.id
     })
   })
@@ -18,12 +20,10 @@ const findAll = async() => {
 }
 
 const findAllPaginated = async({ pageSize = 10, startAfter = '' }) => {
-
-  const categoriesDB = await db.collection('categories')
-                                .orderBy('category')
-                                .limit(pageSize+1)
-                                .startAfter(startAfter)
-                                .get()
+  const categoriesDB = await collectionCategories.orderBy('category')
+                                                 .limit(pageSize+1)
+                                                 .startAfter(startAfter)
+                                                 .get()
 
   if (categoriesDB.empty) {
     return {
@@ -53,18 +53,18 @@ const findAllPaginated = async({ pageSize = 10, startAfter = '' }) => {
 }
 
 const create = async(nomeCategoria) => {
-  const collectionCategories = db.collection('categories').doc()
-  await collectionCategories.set(nomeCategoria)
+  const doc = collectionCategories.doc()
+  await doc.set(nomeCategoria)
 }
 
 const remove = async(id) => {
-  const doc = db.collection('categories').doc(id)
+  const doc = collectionCategories.doc(id)
   await doc.delete()
 }
 
 const update = async(id, nomeCategoria) => {
-  const collectionCategories = db.collection('categories').doc(id)
-  await collectionCategories.update(nomeCategoria)
+  const doc = collectionCategories.doc(id)
+  await doc.update(nomeCategoria)
 }
 
 module.exports = {
