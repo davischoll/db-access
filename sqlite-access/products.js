@@ -82,10 +82,14 @@ const init = database => {
     })
   }
 
-  const create = async(idCategoria, idProduto, data) => {
+  const create = async(idCategoria, data) => {
     const banco = await db.init(database)
-    await db.queryWithParams(banco, `INSERT INTO products (id, product, price) VALUES (?, ?, ?)`, data)
-    await db.queryWithParams(banco, `INSERT INTO categories_products (category_id, product_id) VALUES (?, ?)`, [idCategoria, idProduto])
+    
+    await db.queryWithParams(banco, `INSERT INTO products (product, price) VALUES (?, ?)`, data)
+    
+    const idProdutoCriado = await db.query(banco, 'SELECT id FROM products ORDER BY id DESC LIMIT 1')
+
+    await db.queryWithParams(banco, `INSERT INTO categories_products (category_id, product_id) VALUES (?, ?)`, [idCategoria, idProdutoCriado[0].id])
   }
 
   const remove = async(idProduto) => {
@@ -110,8 +114,8 @@ const init = database => {
 
   const addImage = async(data, idProduto) => {
     const banco = await db.init(database)
-    await db.queryWithParams(banco, `INSERT INTO images (id, description, url, product_id)
-                                     VALUES (?, ?, ?, ?)`, [...data, idProduto])
+    await db.queryWithParams(banco, `INSERT INTO images (description, url, product_id)
+                                     VALUES (?, ?, ?)`, [...data, idProduto])
   }
 
   return {

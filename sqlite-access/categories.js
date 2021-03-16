@@ -21,7 +21,7 @@ const init = database => {
 
   const create = async(data) => {
     const banco = await db.init(database)
-    await db.queryWithParams(banco, `INSERT INTO categories (id, category) VALUES (?, ?)`, data)
+    await db.queryWithParams(banco, `INSERT INTO categories (category) VALUES (?)`, data)
   }
 
   const remove = async(idCategoria) => {
