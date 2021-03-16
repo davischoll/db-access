@@ -58,6 +58,30 @@ const init = database => {
     }
   }
 
+  const selectAllByCategory = async(idCategoria) => {
+    const banco = await db.init(database)
+    const products = await db.query(banco, `SELECT *
+                                              FROM products p
+                                              JOIN categories_products cp ON cp.product_id = p.id
+                                            WHERE cp.category_id = ${idCategoria}`)
+
+    const condition = products.map(produto => produto.id).join(',')
+
+    const images = await db.query(banco, 'SELECT * FROM images WHERE product_id IN ('+condition+') GROUP BY product_id')
+    const mapImages = images.reduce((antigo, atual) => {
+      return {
+        ...antigo,
+        [atual.product_id]: atual
+      }
+    }, {})
+    return products.map(product => {
+      return {
+        ...product,
+        image: mapImages[product.id]
+      }
+    })
+  }
+
   const create = async(idCategoria, idProduto, data) => {
     const banco = await db.init(database)
     await db.queryWithParams(banco, `INSERT INTO products (id, product, price) VALUES (?, ?, ?)`, data)
@@ -76,6 +100,14 @@ const init = database => {
     await db.queryWithParams(banco, `UPDATE products SET product = ?, price = ? WHERE id = ?`, data)
   }
 
+  const updateCategoriesProducts = async(idProduto, idCategorias) => {
+    const banco = await db.init(database)
+    await db.queryWithParams(banco, `DELETE FROM categories_products WHERE product_id = ?`, [idProduto])
+    for await (const idCategoria of idCategorias) {
+      await db.queryWithParams(banco, `INSERT INTO categories_products (product_id, category_id) VALUES (?, ?)`, [idProduto, idCategoria])
+    }
+  }
+
   const addImage = async(data, idProduto) => {
     const banco = await db.init(database)
     await db.queryWithParams(banco, `INSERT INTO images (id, description, url, product_id)
@@ -85,9 +117,11 @@ const init = database => {
   return {
     selectAll,
     selectAllPaginated,
+    selectAllByCategory,
     create,
     remove,
     update,
+    updateCategoriesProducts,
     addImage
   }
 }

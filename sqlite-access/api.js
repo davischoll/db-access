@@ -29,8 +29,12 @@ const testCategories = async() => {
   // const selectProducts = await products.selectAll()
   // console.log(selectProducts)
 
-  const selectProductsPaginated = await products.selectAllPaginated({ pageSize: 2, currentPage: 0 })
-  console.log(selectProductsPaginated)
+  // const selectProductsPaginated = await products.selectAllPaginated({ pageSize: 2, currentPage: 0 })
+  // console.log(selectProductsPaginated)
+
+  // await products.updateCategoriesProducts(1, [2])
+
+  console.log(await products.selectAllByCategory([7]))
 
 }
 
