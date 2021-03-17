@@ -2,3 +2,4 @@ firestore-access/node_modules
 firestore-access/firestore.json
 sqlite-access/node_modules
 sqlite-access/banco.sqlite3
+mysql-access/node_modules
