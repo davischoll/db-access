@@ -9,8 +9,8 @@ const run = async() => {
       database: 'product-catalog'
     })
     try{
-    const [ results, fields ] = await conn.query('SELECT * FROM categories')
-    console.log(results, fields)
+      const [ results ] = await conn.query(`DELETE FROM categories WHERE id = ? LIMIT 1`, [3])
+      console.log(results)
     }catch(err){
       console.log(err)
     }

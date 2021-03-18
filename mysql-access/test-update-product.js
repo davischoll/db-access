@@ -9,8 +9,8 @@ const run = async() => {
       database: 'product-catalog'
     })
     try{
-    const [ results, fields ] = await conn.query('SELECT * FROM categories')
-    console.log(results, fields)
+    const [ results ] = await conn.query(`UPDATE products SET product_name = ?, price = ? WHERE id = ?;`, ['Produto4', 345, 4])
+    console.log(results)
     }catch(err){
       console.log(err)
     }

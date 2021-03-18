@@ -9,7 +9,7 @@ const run = async() => {
       database: 'product-catalog'
     })
     try{
-    const [ results, fields ] = await conn.query('SELECT * FROM categories')
+    const [ results, fields ] = await conn.query(`INSERT INTO categories (category_name) VALUES (?)`, ['CategoriaTeste'])
     console.log(results, fields)
     }catch(err){
       console.log(err)

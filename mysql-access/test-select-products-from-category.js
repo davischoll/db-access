@@ -9,8 +9,11 @@ const run = async() => {
       database: 'product-catalog'
     })
     try{
-    const [ results, fields ] = await conn.query('SELECT * FROM categories')
-    console.log(results, fields)
+    const [ results ] = await conn.query(`SELECT *
+                                            FROM products p
+                                            LEFT JOIN categories_products cp ON cp.product_id = p.id
+                                           WHERE cp.category_id = ${idCategoria};`)
+    console.log('Products:', results)
     }catch(err){
       console.log(err)
     }
