@@ -24,18 +24,21 @@ const test = async() => {
   // await products.remove(12)
 
   // await products.update('Samsung 4k', 7682, 10)
+  
+  // await products.addImage(['bike2', 'http://www.images.com/bike2.png'], 7)
 
-  // await products.addImage(['imgSony1', 'http://www.images.com/sony1.png'], 3)
+  // const selectProducts = await products.selectAllByCategory(1)
+  // console.log(selectProducts)
 
-  const selectProducts = await products.selectAll()
-  console.log(selectProducts)
-
-  // const selectProductsPaginated = await products.selectAllPaginated({ pageSize: 2, currentPage: 1 })
+  // const selectProductsPaginated = await products.selectAllPaginated()
   // console.log(selectProductsPaginated)
 
-  // await products.updateCategoriesProducts(2, [1, 2, 4])
+  // await products.updateCategories(9, [8])
 
-  // console.log(await products.selectAllByCategory([4]))
+  /* CÓDIGO PARA TESTAR O LIMITE DE CONEXÕE DO POOL DE CONEXÕES DO BANCO:
+  for (let i = 0; i < 1000; i++){
+    products.selectAllByCategory(1).then(prods => console.log(prods))
+  } */
 
 }
 
